@@ -9,6 +9,7 @@ import {
 } from "@remix-run/react";
 
 import tailwindStylesheetUrl from "./styles/tailwind.css";
+import globalcss from "./styles/global.css";
 import { getUser } from "./session.server";
 
 export const meta = () => ({
@@ -42,6 +43,7 @@ export default function App() {
 
 export function links() {
   return [
+    { rel: "stylesheet", href: globalcss },
     {
       rel: "stylesheet",
       href: "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css",

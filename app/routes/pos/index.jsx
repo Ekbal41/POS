@@ -5,9 +5,9 @@ export default function PosIndexPage() {
   return (
     <>
       <div className="grid grid-cols-2 gap-4">
-        <div className="grid grid-cols-4 p-4">
+        <div className="grid grid-cols-4 ">
           <Sidebar />
-          <div className="col-span-3">
+          <div className="col-span-3 p-4">
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quidem
             repellat facere atque deleniti obcaecati nisi optio tempore officia
             voluptatum, ad explicabo quod ullam non culpa facilis eum nemo vero
