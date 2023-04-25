@@ -4,7 +4,7 @@ export default function Navbar() {
       <nav>
         <div className="flex flex-col items-center justify-between bg-slate-100 p-4 shadow md:flex-row">
           <a href="/pos" className="font-bold text-teal-500">
-            POS | Restaurant
+            <img src="logo.svg" className="h-7 w-7" />
           </a>
           <ul className="flex items-center justify-center gap-8">
             <li>
