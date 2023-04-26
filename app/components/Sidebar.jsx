@@ -14,8 +14,8 @@ export default function Sidebar() {
           <li className=" p-2 capitalize transition-all hover:bg-teal-500  hover:font-bold hover:text-white hover:shadow">
             <a href="#" className="">
               <span className="text-lg">
-                <i className="bi bi-hash"></i>{" "}
-              </span>{" "}
+                <i className="bi bi-hash"></i>
+              </span>
               Pizza
             </a>
           </li>
@@ -23,7 +23,7 @@ export default function Sidebar() {
             <a href="#" className="">
               <span className="text-lg ">
                 <i className="bi bi-hash"></i>
-              </span>{" "}
+              </span>
               Ppala pum pum
             </a>
           </li>
@@ -31,7 +31,7 @@ export default function Sidebar() {
             <a href="#" className="">
               <span className="text-lg ">
                 <i className="bi bi-hash"></i>
-              </span>{" "}
+              </span>
               Ilapanam
             </a>
           </li>
