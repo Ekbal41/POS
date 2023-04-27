@@ -1,58 +1,8 @@
-export default function DineItem({ setDine, dine }) {
-  const dineItems = [
-    {
-      name: "Burger",
-      price: 120,
-      quantity: 1,
-      image: "https://picsum.photos/200/300",
-    },
-    {
-      name: "Papapa",
-      price: 220,
-      quantity: 1,
-      image: "https://picsum.photos/200/300",
-    },
-    {
-      name: "Luma Bum Bum",
-      price: 300,
-      quantity: 1,
-      image: "https://picsum.photos/200/300",
-    },
-    {
-      name: "Kula Kula",
-      price: 120,
-      quantity: 1,
-      image: "https://picsum.photos/200/300",
-    },
-    {
-      name: "Mampa Na",
-      price: 220,
-      quantity: 1,
-      image: "https://picsum.photos/200/300",
-    },
-    {
-      name: "Luma ",
-      price: 300,
-      quantity: 1,
-      image: "https://picsum.photos/200/300",
-    },
-    {
-      name: "Mampa Na Xl",
-      price: 420,
-      quantity: 1,
-      image: "https://picsum.photos/200/300",
-    },
-    {
-      name: "Luma Xl",
-      price: 280,
-      quantity: 1,
-      image: "https://picsum.photos/200/300",
-    },
-  ];
+export default function DineItem({ setDine, dine, allItems }) {
   return (
     <>
       <div className="grid grid-cols-3 gap-2">
-        {dineItems.map((item, index) => (
+        {allItems?.map((item, index) => (
           <div
             onClick={
               () => setDine({ ...dine, dineItems: [...dine.dineItems, item] }) // handle change

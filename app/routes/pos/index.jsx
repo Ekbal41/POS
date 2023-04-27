@@ -2,8 +2,13 @@ import { Link } from "@remix-run/react";
 import Sidebar from "../../components/Sidebar";
 import DineItem from "../../components/DineItem";
 import { useCallback, useEffect, useState } from "react";
+import { DineItemsData } from "../../../staticdata/dineitems";
 
 export default function PosIndexPage() {
+  const [allItems, setAllItems] = useState(DineItemsData);
+  const [search, setSearch] = useState("");
+  const [currentCategory, setCurrentCategory] = useState("");
+
   const [discount, setDiscount] = useState({
     5: 0,
     10: 0,
@@ -24,6 +29,24 @@ export default function PosIndexPage() {
       ...discount,
       [key]: (totalPayAble() * key) / 100,
     });
+  };
+
+  const filterByCategory = (cat) => {
+    setCurrentCategory(cat);
+    if (cat === "") {
+      setAllItems(DineItemsData);
+      return;
+    }
+    const filteredData = DineItemsData.filter((item) => item.category === cat);
+    setAllItems(filteredData);
+  };
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    const filteredData = DineItemsData.filter((item) =>
+      item.name.toLowerCase().includes(e.target.value.toLowerCase())
+    );
+    setAllItems(filteredData);
   };
 
   const calDiscount = () => {
@@ -61,15 +84,32 @@ export default function PosIndexPage() {
   return (
     <>
       <div
-        className="grid grid-cols-2 gap-4"
+        className="grid grid-cols-2 "
         style={{
           height: "91vh",
         }}
       >
         <div className="grid grid-cols-4 ">
-          <Sidebar />
+          <Sidebar
+            filterByCategory={filterByCategory}
+            currentCategory={currentCategory}
+          />
           <div className="col-span-3 p-4">
-            <DineItem setDine={setDine} dine={dine} />
+            <div className="mb-4 ">
+              <input
+                onChange={(e) => {
+                  handleSearch(e);
+                }}
+                value={search}
+                placeholder="Search"
+                required
+                name="search"
+                type="search"
+                autoComplete="search"
+                className="w-full rounded border border-gray-300 bg-white px-3 py-1 text-base leading-8  text-gray-700 outline-none transition-colors duration-200 ease-in-out focus:border-teal-500 focus:ring-2 focus:ring-teal-200"
+              />
+            </div>
+            <DineItem setDine={setDine} dine={dine} allItems={allItems} />
           </div>
         </div>
         <div className=" border-2 border-l-gray-100 p-4">

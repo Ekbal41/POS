@@ -1,4 +1,4 @@
-export default function Sidebar() {
+export default function Sidebar({ filterByCategory, currentCategory }) {
   return (
     <>
       <div
@@ -8,32 +8,46 @@ export default function Sidebar() {
         }}
       >
         <ul className="flex flex-col gap-2">
-          <li className="border-b-2 border-teal-500 p-2 font-mono font-bold">
-            All Items
-          </li>
-          <li className=" p-2 capitalize transition-all hover:bg-teal-500  hover:font-bold hover:text-white hover:shadow">
-            <a href="#" className="">
+          <li
+            onClick={() => filterByCategory("")}
+            className={` ${
+              currentCategory === "" && "bg-teal-500 font-bold text-white"
+            } p-2 capitalize transition-all hover:bg-teal-500  hover:font-bold hover:text-white hover:shadow`}
+          >
+            <div className="">
               <span className="text-lg">
                 <i className="bi bi-hash"></i>
               </span>
-              Pizza
-            </a>
+              All
+            </div>
           </li>
-          <li className=" p-2 capitalize transition-all hover:bg-teal-500  hover:font-bold hover:text-white hover:shadow">
-            <a href="#" className="">
+          <li
+            onClick={() => filterByCategory("fastfood")}
+            className={` ${
+              currentCategory === "fastfood" &&
+              "bg-teal-500 font-bold text-white"
+            } p-2 capitalize transition-all hover:bg-teal-500  hover:font-bold hover:text-white hover:shadow`}
+          >
+            <div className="">
+              <span className="text-lg">
+                <i className="bi bi-hash"></i>
+              </span>
+              Fast Food
+            </div>
+          </li>
+          <li
+            onClick={() => filterByCategory("nonfastfood")}
+            className={` ${
+              currentCategory === "nonfastfood" &&
+              "bg-teal-500 font-bold text-white"
+            } p-2 capitalize transition-all hover:bg-teal-500  hover:font-bold hover:text-white hover:shadow`}
+          >
+            <div className="">
               <span className="text-lg ">
                 <i className="bi bi-hash"></i>
               </span>
-              Ppala pum pum
-            </a>
-          </li>
-          <li className=" p-2 capitalize transition-all hover:bg-teal-500  hover:font-bold hover:text-white hover:shadow">
-            <a href="#" className="">
-              <span className="text-lg ">
-                <i className="bi bi-hash"></i>
-              </span>
-              Ilapanam
-            </a>
+              Non Fast Food
+            </div>
           </li>
         </ul>
       </div>
