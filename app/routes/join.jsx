@@ -94,8 +94,8 @@ export default function Join() {
 
   return (
     <div className="flex min-h-full flex-col justify-center">
-      <div className="mx-auto w-full max-w-md rounded border border-indigo-500 p-4 px-8">
-        <h1 className="mb-4 text-center text-3xl text-indigo-500">
+      <div className="mx-auto w-full max-w-md rounded border border-teal-500 p-4 px-8">
+        <h1 className="mb-4 text-center text-3xl text-teal-500">
           Create Account
         </h1>
         <Form method="post" className="space-y-6">
@@ -116,7 +116,7 @@ export default function Join() {
                 autoComplete="name"
                 aria-invalid={actionData?.errors?.name ? true : undefined}
                 aria-describedby="name-error"
-                className="w-full rounded border border-gray-300 bg-white px-3 py-1 text-base leading-8 text-gray-700 outline-none transition-colors duration-200 ease-in-out focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                className="w-full rounded border border-gray-300 bg-white px-3 py-1 text-base leading-8 text-gray-700 outline-none transition-colors duration-200 ease-in-out focus:border-teal-500 focus:ring-2 focus:ring-teal-200"
               />
 
               {actionData?.errors?.name && (
@@ -144,7 +144,7 @@ export default function Join() {
                 autoComplete="email"
                 aria-invalid={actionData?.errors?.email ? true : undefined}
                 aria-describedby="email-error"
-                className="w-full rounded border border-gray-300 bg-white px-3 py-1 text-base leading-8 text-gray-700 outline-none transition-colors duration-200 ease-in-out focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                className="w-full rounded border border-gray-300 bg-white px-3 py-1 text-base leading-8 text-gray-700 outline-none transition-colors duration-200 ease-in-out focus:border-teal-500 focus:ring-2 focus:ring-teal-200"
               />
 
               {actionData?.errors?.email && (
@@ -171,7 +171,7 @@ export default function Join() {
                 autoComplete="new-password"
                 aria-invalid={actionData?.errors?.password ? true : undefined}
                 aria-describedby="password-error"
-                className="w-full rounded border border-gray-300 bg-white px-3 py-1 text-base leading-8 text-gray-700 outline-none transition-colors duration-200 ease-in-out focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                className="w-full rounded border border-gray-300 bg-white px-3 py-1 text-base leading-8 text-gray-700 outline-none transition-colors duration-200 ease-in-out focus:border-teal-500 focus:ring-2 focus:ring-teal-200"
               />
 
               {actionData?.errors?.password && (
@@ -197,7 +197,7 @@ export default function Join() {
                 autoComplete="new-password"
                 aria-invalid={actionData?.errors?.password2 ? true : undefined}
                 aria-describedby="password-error"
-                className="w-full rounded border border-gray-300 bg-white px-3 py-1 text-base leading-8 text-gray-700 outline-none transition-colors duration-200 ease-in-out focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                className="w-full rounded border border-gray-300 bg-white px-3 py-1 text-base leading-8 text-gray-700 outline-none transition-colors duration-200 ease-in-out focus:border-teal-500 focus:ring-2 focus:ring-teal-200"
               />
 
               {actionData?.errors?.password2 && (
@@ -211,7 +211,7 @@ export default function Join() {
           <input type="hidden" name="redirectTo" value={redirectTo} />
           <button
             type="submit"
-            className="w-full rounded bg-indigo-500  px-4 py-2 text-white hover:bg-indigo-600 focus:bg-indigo-400"
+            className="w-full rounded bg-teal-500  px-4 py-2 text-white hover:bg-teal-600 focus:bg-teal-400"
           >
             Create Account
           </button>
@@ -219,7 +219,7 @@ export default function Join() {
             <div className="text-center text-sm text-gray-500">
               Already have an account?{" "}
               <Link
-                className="text-indigo-500 underline"
+                className="text-teal-500 underline"
                 to={{
                   pathname: "/login",
                   search: searchParams.toString(),

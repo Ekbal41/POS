@@ -1,8 +1,17 @@
-import { Link } from "@remix-run/react";
 import Sidebar from "../../components/Sidebar";
 import DineItem from "../../components/DineItem";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { DineItemsData } from "../../../staticdata/dineitems";
+import { redirect } from "@remix-run/node";
+import { getUser } from "../../session.server";
+
+export async function loader({ request }) {
+  const user = await getUser(request);
+  if (!user) {
+    return redirect("/login");
+  }
+  return { user };
+}
 
 export default function PosIndexPage() {
   const [allItems, setAllItems] = useState(DineItemsData);
@@ -17,13 +26,47 @@ export default function PosIndexPage() {
   const [total, setTotal] = useState(0);
   const [modelOpen, setModelOpen] = useState(false);
   const [netDiscount, setNetDiscount] = useState(0);
-  const [netPayable, setNetPayable] = useState(0);
   const [dine, setDine] = useState({
     name: "",
     phone: "",
     email: "",
     dineItems: [],
   });
+  const addQuantity = (item) => {
+    const index = dine.dineItems.findIndex((x) => x.id === item.id);
+    const newDineItems = [...dine.dineItems];
+    newDineItems[index].quantity += 1;
+    setDine({
+      ...dine,
+      dineItems: newDineItems,
+    });
+  };
+  const removeQuantity = (item) => {
+    if (item.quantity === 1) {
+      return;
+    }
+    const index = dine.dineItems.findIndex((x) => x.id === item.id);
+    const newDineItems = [...dine.dineItems];
+    if (newDineItems[index].quantity > 1) {
+      newDineItems[index].quantity -= 1;
+      setDine({
+        ...dine,
+        dineItems: newDineItems,
+      });
+    }
+  };
+
+  const setQuantityOfAllTtemsToOne = () => {
+    const newDineItems = [...dine.dineItems];
+    for (let i = 0; i < newDineItems.length; i++) {
+      newDineItems[i].quantity = 1;
+    }
+    setDine({
+      ...dine,
+      dineItems: newDineItems,
+    });
+  };
+
   const handleDiscountClick = (key) => {
     setDiscount({
       ...discount,
@@ -80,7 +123,7 @@ export default function PosIndexPage() {
   useEffect(() => {
     setTotal(totalPayAble() - calDiscount());
     setNetDiscount(calDiscount());
-  }, [dine.dineItems.length, discount]);
+  }, [dine.dineItems.length, discount, dine.dineItems]);
   return (
     <>
       <div
@@ -197,11 +240,21 @@ export default function PosIndexPage() {
                     </div>
 
                     <div>
-                      <button className="rounded-full bg-white px-2 py-1 text-teal-500 hover:shadow-lg">
+                      <button
+                        onClick={() => {
+                          removeQuantity(item);
+                        }}
+                        className="rounded-full bg-white px-2 py-1 text-teal-500 hover:shadow-lg"
+                      >
                         <i className="bi bi-dash-lg"></i>{" "}
                       </button>
                       <span className="px-2 font-bold">{item.quantity}</span>
-                      <button className="rounded-full bg-white px-2 py-1 text-teal-500 hover:shadow-lg">
+                      <button
+                        onClick={() => {
+                          addQuantity(item);
+                        }}
+                        className="rounded-full bg-white px-2 py-1 text-teal-500 hover:shadow-lg"
+                      >
                         <i className="bi bi-plus-lg"></i>{" "}
                       </button>
                     </div>
@@ -237,6 +290,7 @@ export default function PosIndexPage() {
                 setTotal(0),
                   removeAllDiscount(),
                   setNetDiscount(0),
+                  setQuantityOfAllTtemsToOne(),
                   setDine({
                     name: "",
                     phone: "",
@@ -265,9 +319,9 @@ export default function PosIndexPage() {
               <i className="bi bi-cart-plus"></i> Create oreder
             </button>
 
-            <button className=" float-right mt-4 rounded-2xl   px-2 py-1 text-gray-700 hover:bg-gray-100">
+            {/* <button className=" float-right mt-4 rounded-2xl   px-2 py-1 text-gray-700 hover:bg-gray-100">
               <i className="bi bi-three-dots"></i>
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

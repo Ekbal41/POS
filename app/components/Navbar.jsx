@@ -1,12 +1,9 @@
-import { useEffect } from "react";
-import { Route, useMatches } from "react-router";
-export default function Navbar() {
+import { useMatches } from "react-router";
+
+export default function Navbar({ user }) {
   const matches = useMatches();
 
   const { pathname } = matches[matches.length - 1];
-  useEffect(() => {
-    console.log(pathname);
-  });
 
   return (
     <>
@@ -54,10 +51,28 @@ export default function Navbar() {
               </a>
             </li>
             <li>
-              <img
-                src="/jack.jpg"
-                className="hidden h-7 w-7 rounded-full border-2 border-teal-500 object-cover shadow-md md:block"
-              />
+              <a
+                href="#"
+                className=" rounded-full px-3 py-2 transition-colors hover:bg-slate-200 hover:text-slate-700"
+              >
+                <span className="mr-1">
+                  <i className="bi bi-person-circle"></i>{" "}
+                </span>{" "}
+                {user.name}
+              </a>
+            </li>
+            <li>
+              <form method="post" action="/logout">
+                <button
+                  type="submit"
+                  className=" rounded-full px-3 py-2 transition-colors hover:bg-slate-200 hover:text-slate-700"
+                >
+                  <span className="mr-1">
+                    <i className="bi bi-box-arrow-right"></i>{" "}
+                  </span>{" "}
+                  Logout
+                </button>
+              </form>
             </li>
           </ul>
         </div>
