@@ -1,9 +1,17 @@
 import Sidebar from "../../components/Sidebar";
 import DineItem from "../../components/DineItem";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DineItemsData } from "../../../staticdata/dineitems";
 import { redirect } from "@remix-run/node";
-import { getUser } from "../../session.server";
+import { getUser, logout } from "../../session.server";
+import ReactToPrint from "react-to-print";
+import { Form } from "@remix-run/react";
+
+export async function action({ request }) {
+  const formData = await request.formData();
+  console.log(formData.get("amount"));
+  return null;
+}
 
 export async function loader({ request }) {
   const user = await getUser(request);
@@ -14,6 +22,7 @@ export async function loader({ request }) {
 }
 
 export default function PosIndexPage() {
+  const modelRef = useRef();
   const [isCurrentOrder, setIsCurrentOrder] = useState(true);
   const [allItems, setAllItems] = useState(DineItemsData);
   const [search, setSearch] = useState("");
@@ -33,6 +42,20 @@ export default function PosIndexPage() {
     email: "",
     dineItems: [],
   });
+
+  const handleRefresh = () => {
+    setTotal(0),
+      removeAllDiscount(),
+      setNetDiscount(0),
+      setQuantityOfAllTtemsToOne(),
+      setIsCurrentOrder(true),
+      setDine({
+        name: "",
+        phone: "",
+        email: "",
+        dineItems: [],
+      });
+  };
   const addQuantity = (item) => {
     const index = dine.dineItems.findIndex((x) => x.id === item.id);
     const newDineItems = [...dine.dineItems];
@@ -96,13 +119,6 @@ export default function PosIndexPage() {
   const calDiscount = () => {
     let dis = Object.values(discount).reduce((acc, item) => acc + item, 0);
     return dis;
-  };
-
-  const removeSingleDiscount = (key) => {
-    setDiscount({
-      ...discount,
-      [key]: 0,
-    });
   };
 
   const removeAllDiscount = () => {
@@ -288,17 +304,7 @@ export default function PosIndexPage() {
           <div className="flex items-center gap-4 ">
             <button
               onClick={() => {
-                setTotal(0),
-                  removeAllDiscount(),
-                  setNetDiscount(0),
-                  setQuantityOfAllTtemsToOne(),
-                  setIsCurrentOrder(true),
-                  setDine({
-                    name: "",
-                    phone: "",
-                    email: "",
-                    dineItems: [],
-                  });
+                handleRefresh();
               }}
               className=" float-right mt-4 rounded-2xl   px-2 py-1 text-gray-700 hover:bg-gray-100"
             >
@@ -346,7 +352,10 @@ export default function PosIndexPage() {
           <div className="fixed inset-0 z-10 overflow-y-auto">
             <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
               <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                <div
+                  className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4"
+                  ref={modelRef}
+                >
                   <div className="">
                     <h1 className=" mb-5 font-bold text-teal-500">
                       Order Details
@@ -419,19 +428,38 @@ export default function PosIndexPage() {
                   >
                     Cancel
                   </button>
+                  <Form method="post">
+                    <input
+                      type="hidden"
+                      name="items"
+                      value={dine?.dineItems.length}
+                    />
+                    <input type="hidden" name="amount" value={total} />
 
-                  <button
-                    type="button"
-                    className="mr-2 inline-flex w-full justify-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 sm:ml-3 sm:w-auto"
-                  >
-                    Save And Print
-                  </button>
-                  <button
-                    type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 sm:ml-3 sm:w-auto"
-                  >
-                    Save
-                  </button>
+                    <input type="hidden" name="status" value={"pending"} />
+
+                    <input
+                      type="hidden"
+                      name="orderType"
+                      value={isCurrentOrder ? "Current Order" : "Pre Order"}
+                    />
+
+                    <ReactToPrint
+                      onAfterPrint={() => {
+                        setModelOpen(false);
+                        handleRefresh();
+                      }}
+                      trigger={() => (
+                        <button
+                          type="submit"
+                          className="mr-2 inline-flex w-full justify-center rounded-md bg-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 sm:ml-3 sm:w-auto"
+                        >
+                          Save And Print
+                        </button>
+                      )}
+                      content={() => modelRef.current}
+                    />
+                  </Form>
                 </div>
               </div>
             </div>
