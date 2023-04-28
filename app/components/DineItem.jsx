@@ -1,12 +1,16 @@
 export default function DineItem({ setDine, dine, allItems }) {
+  const handleAddDine = (item) => {
+    if (dine.dineItems.find((dineItem) => dineItem.id === item.id)) {
+      return;
+    }
+    setDine({ ...dine, dineItems: [...dine.dineItems, item] });
+  };
   return (
     <>
       <div className="grid grid-cols-3 gap-2">
         {allItems?.map((item, index) => (
           <div
-            onClick={
-              () => setDine({ ...dine, dineItems: [...dine.dineItems, item] }) // handle change
-            }
+            onClick={() => handleAddDine(item)}
             key={index}
             className="cursor-pointer border border-teal-500 p-2 transition-all hover:bg-gray-50 "
           >

@@ -1,5 +1,6 @@
 export const DineItemsData = [
     {
+        id: 1,
         name: "Burger",
         price: 120,
         quantity: 1,
@@ -7,6 +8,7 @@ export const DineItemsData = [
         category: "fastfood"
     },
     {
+        id: 2,
         name: "notBurger",
         price: 120,
         quantity: 1,
