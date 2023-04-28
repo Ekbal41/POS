@@ -14,6 +14,7 @@ export async function loader({ request }) {
 }
 
 export default function PosIndexPage() {
+  const [isCurrentOrder, setIsCurrentOrder] = useState(true);
   const [allItems, setAllItems] = useState(DineItemsData);
   const [search, setSearch] = useState("");
   const [currentCategory, setCurrentCategory] = useState("");
@@ -291,6 +292,7 @@ export default function PosIndexPage() {
                   removeAllDiscount(),
                   setNetDiscount(0),
                   setQuantityOfAllTtemsToOne(),
+                  setIsCurrentOrder(true),
                   setDine({
                     name: "",
                     phone: "",
@@ -319,9 +321,16 @@ export default function PosIndexPage() {
               <i className="bi bi-cart-plus"></i> Create oreder
             </button>
 
-            {/* <button className=" float-right mt-4 rounded-2xl   px-2 py-1 text-gray-700 hover:bg-gray-100">
-              <i className="bi bi-three-dots"></i>
-            </button> */}
+            <button
+              onClick={() => {
+                setIsCurrentOrder(false);
+              }}
+              className={` ${
+                !isCurrentOrder ? "bg-green-500 text-white" : "text-green-500"
+              } float-right mx-2    mt-4 rounded-full  px-3   py-1 hover:shadow`}
+            >
+              <i class="bi bi-lightning-charge-fill"></i> Pre oreder
+            </button>
           </div>
         </div>
       </div>
@@ -355,10 +364,7 @@ export default function PosIndexPage() {
                     </div>
                     <div className="flex gap-2 ">
                       <div className=" rounded-full border border-teal-500 px-2 text-gray-700">
-                        Pre-Order
-                      </div>
-                      <div className=" rounded-full border border-teal-500 px-2 text-gray-700">
-                        Order
+                        {isCurrentOrder ? "Current Order" : "Pre Order"}
                       </div>
                     </div>
 
