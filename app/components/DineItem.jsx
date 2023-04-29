@@ -27,11 +27,14 @@ export default function DineItem({ setDine, dine, allItems }) {
               src={item.image}
               className="h-14 w-14 rounded-full border border-teal-500"
               alt=""
+              style={{
+                objectFit: "cover",
+              }}
             />
             <p className="mt-5  text-teal-500">{item.name}</p>
             <p className="">
               {item.price}
-              <span className="text-sm">tk</span>
+              <span className="mx-1 text-sm">৳</span>
             </p>
           </div>
         ))}
