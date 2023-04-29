@@ -7,12 +7,21 @@ export default function DineItem({ setDine, dine, allItems }) {
   };
   return (
     <>
-      <div className="grid grid-cols-3 gap-2">
+      <div
+        className="grid grid-cols-3 gap-2"
+        style={{
+          maxHeight: "78vh",
+          overflowY: "scroll",
+        }}
+      >
         {allItems?.map((item, index) => (
           <div
             onClick={() => handleAddDine(item)}
             key={index}
             className="cursor-pointer border border-teal-500 p-2 transition-all hover:bg-gray-50 "
+            style={{
+              height: "20vh",
+            }}
           >
             <img
               src={item.image}
