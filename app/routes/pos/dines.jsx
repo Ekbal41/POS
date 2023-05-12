@@ -1,17 +1,31 @@
+import { useLoaderData } from "react-router";
 import DineCard from "../../components/DineCard";
+import { getAllDine } from "../../models/dine.server";
+import { getUser, getUserId } from "../../session.server";
+
+export async function loader({ request }) {
+  const userId = getUserId(request);
+  const user = await getUser(request);
+  if (!user) {
+    return redirect("/login");
+  }
+  const alldines = await getAllDine({ userId });
+  return { alldines };
+}
 
 export default function Dines() {
+  const { alldines } = useLoaderData();
   return (
     <>
-      <div className="w-full   ">
-        <div className="border bg-slate-100">
+      <div className=" w-full  ">
+        <div className="h-screen border bg-slate-100">
           <div className="flex justify-between  border bg-slate-50 p-5">
             <div className="flex gap-5">
               <div>
                 <p className=" text-lg">
                   Active
                   <span className="mx-2 rounded-full bg-teal-500 px-2 py-1 text-xs text-white">
-                    30
+                    {alldines.filter((dine) => dine.status === true).length}
                   </span>
                 </p>
               </div>
@@ -19,15 +33,7 @@ export default function Dines() {
                 <p className=" text-lg">
                   Pending
                   <span className="mx-2 rounded-full bg-teal-500 px-2 py-1 text-xs text-white">
-                    20
-                  </span>
-                </p>
-              </div>
-              <div>
-                <p className=" text-lg">
-                  Served
-                  <span className="mx-2 rounded-full bg-teal-500 px-2 py-1 text-xs text-white">
-                    22
+                    {alldines.filter((dine) => dine.status === false).length}{" "}
                   </span>
                 </p>
               </div>
@@ -36,7 +42,7 @@ export default function Dines() {
               <p className=" text-lg">
                 Papaya Restarount
                 <span className="mx-2 rounded-full bg-teal-500 px-2 py-1 text-xs text-white">
-                  50
+                  {alldines.length}
                 </span>
               </p>
             </div>
@@ -45,31 +51,7 @@ export default function Dines() {
             <div className="mb-10">
               <p>Active Orders</p>
               <div className="mt-4 grid grid-cols-4 gap-4">
-                <DineCard />
-                <DineCard />
-                <DineCard />
-                <DineCard />
-                <DineCard />
-                <DineCard />
-                <DineCard />
-                <DineCard />
-                <DineCard />
-                <DineCard />
-                <DineCard />
-                <DineCard />
-                <DineCard />
-                <DineCard />
-              </div>
-            </div>
-            <div>
-              <p>Pending Orders</p>
-              <div className="mt-4 grid grid-cols-4 gap-4">
-                <DineCard />
-                <DineCard />
-                <DineCard />
-                <DineCard />
-                <DineCard />
-                <DineCard />
+                {alldines && alldines.map((dine) => <DineCard dine={dine} />)}
               </div>
             </div>
           </div>

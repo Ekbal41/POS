@@ -8,10 +8,11 @@ export function getAllDine({ userId }) {
   });
 }
 
-export function createDine({ items, amount, status, orderType }) {
+export function createDine({ items, amount, status, orderType, userId }) {
   return prisma.dine.create({
     data: {
       items, amount, status, orderType,
+      orderNo: String(Math.floor(Math.random() * 1000000000)),
       user: {
         connect: {
           id: userId,

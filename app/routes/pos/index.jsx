@@ -3,13 +3,21 @@ import DineItem from "../../components/DineItem";
 import { useEffect, useRef, useState } from "react";
 import { DineItemsData } from "../../../staticdata/dineitems";
 import { redirect } from "@remix-run/node";
-import { getUser, logout } from "../../session.server";
+import { getUser, getUserId, logout } from "../../session.server";
 import ReactToPrint from "react-to-print";
 import { Form } from "@remix-run/react";
+import { createDine } from "../../models/dine.server";
 
 export async function action({ request }) {
   const formData = await request.formData();
-  console.log(formData.get("amount"));
+  const userId = await getUserId(request);
+  const dine = await createDine({
+    items: Number(formData.get("items")),
+    amount: Number(formData.get("amount")),
+    status: Boolean(formData.get("status")),
+    orderType: formData.get("orderType"),
+    userId: userId,
+  });
   return null;
 }
 
@@ -432,11 +440,14 @@ export default function PosIndexPage() {
                     <input
                       type="hidden"
                       name="items"
-                      value={dine?.dineItems.length}
+                      value={
+                        //length of dineitems array which is just a string not list
+                        dine?.dineItems.length
+                      }
                     />
                     <input type="hidden" name="amount" value={total} />
 
-                    <input type="hidden" name="status" value={"pending"} />
+                    <input type="hidden" name="status" value={true} />
 
                     <input
                       type="hidden"
